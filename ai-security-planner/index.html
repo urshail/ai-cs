@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MD Learning Planner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1 id="plan-title">Learning Planner</h1>
+      <span id="overall-progress" class="badge">0% complete</span>
+    </div>
+
+    <div class="controls">
+      <label class="control-item">
+        Start Date
+        <input type="date" id="start-date" />
+      </label>
+
+      <div class="shift-group">
+        <input type="number" id="shift-days" value="7" min="1" max="90" aria-label="Days to shift" />
+        <button id="btn-shift" title="Push uncompleted tasks forward">Shift +Days</button>
+      </div>
+
+      <label class="btn btn-secondary file-btn">
+        Load .md
+        <input type="file" id="md-upload" accept=".md,.txt" hidden />
+      </label>
+
+      <button id="btn-ics" class="btn btn-secondary">Export .ics</button>
+      <button id="btn-export-json" class="btn btn-secondary">Backup</button>
+      <label class="btn btn-secondary file-btn">
+        Restore
+        <input type="file" id="json-import" accept=".json" hidden />
+      </label>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-view="focus">Today & This Week</button>
+    <button class="tab" data-view="roadmap">Modules & Roadmap</button>
+    <button class="tab" data-view="bookmarks">Bookmarks & Refs</button>
+
+    <div class="filter-bar">
+      <select id="status-filter" aria-label="Filter tasks">
+        <option value="all">All Tasks</option>
+        <option value="pending">Pending Only</option>
+        <option value="done">Completed</option>
+        <option value="labs">Weekend Labs Only</option>
+      </select>
+      <input type="search" id="search-input" placeholder="Search tasks or bookmarks..." />
+    </div>
+  </nav>
+
+  <main id="app-root" class="container">
+    <div id="drop-zone" class="drop-zone hidden">Drop a Markdown (.md) plan file here</div>
+    <section id="view-focus" class="view active"></section>
+    <section id="view-roadmap" class="view"></section>
+    <section id="view-bookmarks" class="view"></section>
+  </main>
+
+  <script src="parser.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
