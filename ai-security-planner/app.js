@@ -104,7 +104,24 @@
       saveState();
     });
 
-    row.append(cb, dateEl, timeEl, textEl, noteEl);
+    const refsEl = document.createElement('div');
+    refsEl.className = 'task-refs';
+    if (task.refs && task.refs.length) {
+      task.refs.forEach(ref => {
+        if (!/^https?:\/\//i.test(ref.url)) return;
+        const a = document.createElement('a');
+        a.className = 'ref-chip';
+        a.href = ref.url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = `↗ ${ref.label}`;
+        refsEl.appendChild(a);
+      });
+    }
+
+    row.append(cb, dateEl, timeEl, textEl);
+    if (refsEl.childElementCount > 0) row.append(refsEl);
+    row.append(noteEl);
     return row;
   }
 

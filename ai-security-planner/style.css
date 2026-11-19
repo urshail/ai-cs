@@ -176,6 +176,31 @@ button:hover, .btn:hover { border-color: var(--accent); }
 }
 .hidden { display: none; }
 
+.task-refs {
+  grid-column: 2 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.ref-chip {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.12rem 0.55rem;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ref-chip:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
 @media (max-width: 720px) {
   .task-row { grid-template-columns: 24px 1fr; }
   .task-date, .task-time { grid-column: 2; }

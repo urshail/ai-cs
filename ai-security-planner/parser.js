@@ -13,6 +13,25 @@ window.PlanParser = (() => {
     return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1').trim();
   }
 
+  function parseLinks(cell) {
+    if (!cell) return [];
+    const refs = [];
+    const mdLinkRe = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+    let match;
+    while ((match = mdLinkRe.exec(cell)) !== null) {
+      refs.push({ label: match[1].trim(), url: match[2].trim() });
+    }
+    if (refs.length === 0) {
+      const bareUrls = cell.match(/https?:\/\/[^\s`)]+/g) || [];
+      bareUrls.forEach(url => {
+        try {
+          refs.push({ label: new URL(url).hostname.replace(/^www\./, ''), url });
+        } catch (_) {}
+      });
+    }
+    return refs;
+  }
+
   function parseMarkdown(mdText) {
     const lines = mdText.split(/\r?\n/);
     const plan = { title: 'Learning Planner', modules: [], bookmarks: [] };
@@ -84,6 +103,7 @@ window.PlanParser = (() => {
         const time = stripMd(cols[1]);
         const taskText = stripMd(cols[2]);
         const isLab = dayKey === 'sat' || dayKey === 'sun' || /\blab\b|\bcapstone\b/i.test(taskText);
+	const refs = cols[3] ? parseLinks(cols[3]) : [];
 
         currentWeek.tasks.push({
           id: `w${currentWeek.number}-${dayKey}-${currentWeek.tasks.length}`,
@@ -92,7 +112,8 @@ window.PlanParser = (() => {
           dayOffset: (currentWeek.number - 1) * 7 + offset,
           time,
           text: taskText,
-          isLab
+          isLab,
+	  refs
         });
       }
     }
