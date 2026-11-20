@@ -13,11 +13,11 @@ Date Mapping & Rescheduling: Automatically maps tasks to calendar dates and shif
 Local & Private: Saves progress, notes, and clickable reference links in browser localStorage with JSON backup and .ics calendar export.
 
 Run Locally
-
+```
 git clone https://github.com/urshail/ai-cs.git
 cd ai-cs/ai-security-planner
 python3 -m http.server 8000
-
+```
 
 Open http://localhost:8000 in your browser.
 
